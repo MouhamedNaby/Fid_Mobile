@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:lycs_fid_customers/accueil.dart';
+import 'package:lycs_fid_customers/components/function.dart';
 import 'package:lycs_fid_customers/configs/config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lycs_fid_customers/connection/connexion.dart';
+import 'package:lycs_fid_customers/controllers/user.dart';
 import 'package:lycs_fid_customers/delayed_animation.dart';
 import 'package:lycs_fid_customers/components/reusable_widget.dart';
+import 'package:lycs_fid_customers/model/client.dart';
 //import 'package:lycs_fid_customers/model/client.dart';
 
 class Inscription extends StatefulWidget {
@@ -22,13 +25,14 @@ class _InscriptionState extends State<Inscription> {
   double pageHeight = 0;
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _firstnameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _telController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _adresseController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmpassVisiblewordController =
       TextEditingController();
-  final TextEditingController _firstnameController = TextEditingController();
-  final TextEditingController _telController = TextEditingController();
   bool passVisible = true;
   bool confirmPassVisible = true;
 
@@ -37,6 +41,8 @@ class _InscriptionState extends State<Inscription> {
     pageWidth = MediaQuery.of(context).size.width;
     pageHeight = MediaQuery.of(context).size.height;
 
+    Client client;
+    UserController user = UserController();
     return Scaffold(
       body: Stack(
         children: [
@@ -104,24 +110,35 @@ class _InscriptionState extends State<Inscription> {
                                       labelController: _nameController,
                                       icone: Icons.person,
                                       isPassword: false,
+                                      passwordVisible: false,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Prénom',
                                       labelController: _firstnameController,
                                       icone: Icons.person,
                                       isPassword: false,
+                                      passwordVisible: false,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Téléphone',
                                       labelController: _telController,
                                       icone: Icons.phone,
                                       isPassword: false,
+                                      passwordVisible: false,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Email',
                                       labelController: _emailController,
                                       icone: Icons.email,
                                       isPassword: false,
+                                      passwordVisible: false,
+                                    ),
+                                    buildTextContainer(
+                                      labelName: 'Adresse',
+                                      labelController: _adresseController,
+                                      icone: Icons.location_on,
+                                      isPassword: false,
+                                      passwordVisible: false,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Password',
@@ -164,7 +181,59 @@ class _InscriptionState extends State<Inscription> {
                                       ),
                                       child: InkWell(
                                         onTap: () => {
-                                          print('Création de compte'),
+                                          if (_formKey.currentState!.validate())
+                                            {
+                                              print(
+                                                  'Prénom: ${_firstnameController.text}'),
+                                              print(
+                                                  'Nom: ${_nameController.text}'),
+                                              print(
+                                                  'Téléphone: ${_telController.text}'),
+                                              print(
+                                                  'Adresse: ${_adresseController.text}'),
+                                              print(
+                                                  'Password: ${_passwordController.text}'),
+                                              print(
+                                                  'E-mail: ${_emailController.text}'),
+                                              client = Client(
+                                                lastName: _nameController.text,
+                                                firstName:
+                                                    _firstnameController.text,
+                                                phone: _telController.text,
+                                                adresse:
+                                                    _adresseController.text,
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text,
+                                              ),
+                                              user.setClient = client,
+                                              print(user.getClient),
+                                              user.createAccount(
+                                                  user.getClient),
+                                              clear({
+                                                "name": _nameController,
+                                                "firstname":
+                                                    _firstnameController,
+                                                "tel": _telController,
+                                                "adresse": _adresseController,
+                                                "email": _emailController,
+                                                "password": _passwordController,
+                                                "confirmpassword":
+                                                    _confirmpassVisiblewordController
+                                              }),
+                                            }
+                                          else
+                                            {
+                                              print(
+                                                  'Veuillez remplir tous les champs'),
+                                            },
+                                          if (_passwordController.text !=
+                                              _confirmpassVisiblewordController
+                                                  .text)
+                                            {
+                                              print(
+                                                  'Les mots de passe ne correspondent pas'),
+                                            }
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -268,6 +337,10 @@ class _InscriptionState extends State<Inscription> {
                                   alignment: Alignment.center,
                                   margin: EdgeInsets.only(
                                     top: pageHeight * 0.008,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.white,
                                   ),
                                   child: InkWell(
                                     onTap: () => Navigator.push(

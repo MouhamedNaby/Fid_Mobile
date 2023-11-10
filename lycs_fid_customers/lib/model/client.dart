@@ -1,33 +1,76 @@
-class Client {
-  String id;
-  String nom;
-  String prenom;
-  String email;
-  String password;
-  String tel;
+import 'package:flutter/material.dart';
+
+class Client with ChangeNotifier {
+  String? id;
+  String? lastName;
+  String? firstName;
+  String? email;
+  String? adresse;
+  String? password;
+  String? phone;
 
   Client(
-      {required this.id,
-      required this.nom,
-      required this.prenom,
-      required this.email,
-      required this.password,
-      required this.tel});
+      {this.id,
+      this.lastName,
+      this.firstName,
+      this.email,
+      this.adresse,
+      this.password,
+      this.phone});
+
+  set setId(String? id) => () {
+        this.id = id;
+        notifyListeners();
+      };
+
+  String get getId => id!;
+  set setLastName(String? lastName) => () {
+        this.lastName = lastName;
+        notifyListeners();
+      };
+  String get getLastName => lastName!;
+  set setFirstName(String? firstName) => () {
+        this.firstName = firstName;
+        notifyListeners();
+      };
+  String get getFirstName => firstName!;
+  set setEmail(String? email) => () {
+        this.email = email;
+        notifyListeners();
+      };
+  String get getEmail => email!;
+  set setAdresse(String? adresse) => () {
+        this.adresse = adresse;
+        notifyListeners();
+      };
+  String get getAdresse => adresse!;
+  set setPassword(String? password) => () {
+        this.password = password;
+        notifyListeners();
+      };
+  String get getPassword => password!;
+  set setPhone(String? phone) => () {
+        this.phone = phone;
+        notifyListeners();
+      };
+  String get getPhone => phone!;
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
       id: json['id'],
-      nom: json['nom'],
-      prenom: json['prenom'],
+      lastName: json['lastName'],
+      firstName: json['firstName'],
       email: json['email'],
+      adresse: json['adresse'],
       password: json['password'],
-      tel: json['tel']);
+      phone: json['phone']);
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'nom': nom,
-        'prenom': prenom,
+        'lastName': lastName,
+        'firstName': firstName,
         'email': email,
+        'adresse': adresse,
         'password': password,
-        'tel': tel
+        'phone': phone
       };
 }

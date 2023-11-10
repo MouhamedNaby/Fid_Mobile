@@ -13,12 +13,17 @@ Container buildTextContainer({
   return Container(
     margin: const EdgeInsets.only(top: 5, bottom: 5),
     padding: const EdgeInsets.all(0),
-    height: 43,
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(50),
     ),
-    child: TextField(
+    child: TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Veuillez saisir votre $labelName';
+        }
+        return null;
+      },
       controller: labelController,
       decoration: InputDecoration(
         labelText: labelName,

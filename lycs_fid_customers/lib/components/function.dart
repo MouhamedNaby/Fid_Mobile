@@ -26,3 +26,9 @@ void afficherConditionConfidentialite(BuildContext context) {
     },
   );
 }
+
+void clear(Map<String, TextEditingController> controllers) {
+  controllers.forEach((key, value) {
+    value.clear();
+  });
+}

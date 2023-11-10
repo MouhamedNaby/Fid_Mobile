@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
-        android:label="lycs_fid_customers"
+        android:label="LycsFid"
         android:name="${applicationName}"
         android:icon="@mipmap/icone_lycs">
         <activity
