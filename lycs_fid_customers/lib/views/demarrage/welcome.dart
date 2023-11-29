@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lycs_fid_customers/connection/inscription.dart';
+import 'package:lycs_fid_customers/views/connection/connexion.dart';
 import 'package:lycs_fid_customers/configs/config.dart';
-import 'package:lycs_fid_customers/delayed_animation.dart';
-import 'package:lycs_fid_customers/demarrage/slider_page.dart';
-import 'package:lycs_fid_customers/privacypolicy.dart';
+import 'package:lycs_fid_customers/animation/delayed_animation.dart';
+import 'package:lycs_fid_customers/views/demarrage/slider_page.dart';
+import 'package:lycs_fid_customers/views/privacypolicy.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
@@ -121,7 +121,7 @@ class _WelcomeState extends State<Welcome> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const Inscription(),
+                                      builder: (context) => const Connection(),
                                     ));
                               }
                             : null,

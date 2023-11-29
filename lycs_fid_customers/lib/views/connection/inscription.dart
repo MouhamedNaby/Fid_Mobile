@@ -1,36 +1,64 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:lycs_fid_customers/accueil.dart';
+import 'package:lycs_fid_customers/views/accueil.dart';
+//import 'package:lycs_fid_customers/views/components/function.dart';
 import 'package:lycs_fid_customers/configs/config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lycs_fid_customers/delayed_animation.dart';
-import 'package:lycs_fid_customers/components/reusable_widget.dart';
-import 'package:lycs_fid_customers/connection/inscription.dart';
+import 'package:lycs_fid_customers/views/connection/connexion.dart';
+import 'package:lycs_fid_customers/controllers/user.dart';
+import 'package:lycs_fid_customers/animation/delayed_animation.dart';
+import 'package:lycs_fid_customers/views/components/reusable_widget.dart';
+import 'package:lycs_fid_customers/model/client.dart';
+
 //import 'package:lycs_fid_customers/model/client.dart';
 
-class Connection extends StatefulWidget {
-  const Connection({super.key});
+class Inscription extends StatefulWidget {
+  const Inscription({super.key});
 
   @override
-  State<Connection> createState() => _ConnectionState();
+  State<Inscription> createState() => _InscriptionState();
 }
 
-class _ConnectionState extends State<Connection> {
+class _InscriptionState extends State<Inscription> {
+  //String selectedOption = 'Option 1';
+
+  final List<String> sexes = [
+    'H',
+    'F',
+  ];
+  final List<String> ages = [
+    'ADULTE',
+    'ENFANT',
+  ];
+  String age = '';
+  String sexe = '';
+
   String background = 'assets/svg/background.svg';
   double pageWidth = 0;
   double pageHeight = 0;
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _firstnameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _telController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _adresseController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  final TextEditingController _confirmpassVisiblewordController =
+      TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _sexeController = TextEditingController();
   bool passVisible = true;
+  bool confirmPassVisible = true;
 
   @override
   Widget build(BuildContext context) {
     pageWidth = MediaQuery.of(context).size.width;
     pageHeight = MediaQuery.of(context).size.height;
+
+    Client client;
+    UserController user = UserController();
     return Scaffold(
       body: Stack(
         children: [
@@ -56,10 +84,10 @@ class _ConnectionState extends State<Connection> {
                     Container(
                       margin: EdgeInsets.only(
                         top: pageHeight * 0.05,
-                        bottom: pageHeight * 0.008,
+                        bottom: pageHeight * 0.01,
                       ),
                       child: Text(
-                        'Se connecter',
+                        'Créer un compte',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: pageWidth * 0.08,
@@ -70,7 +98,7 @@ class _ConnectionState extends State<Connection> {
                     Container(
                       margin: EdgeInsets.only(
                         top: pageHeight * 0.005,
-                        bottom: pageHeight * 0.1,
+                        bottom: pageHeight * 0.07,
                       ),
                       width: pageWidth,
                       child: Align(
@@ -94,9 +122,39 @@ class _ConnectionState extends State<Connection> {
                                 child: Column(
                                   children: [
                                     buildTextContainer(
+                                      labelName: 'Nom',
+                                      labelController: _nameController,
+                                      icone: Icons.person,
+                                      isPassword: false,
+                                      passwordVisible: false,
+                                    ),
+                                    buildTextContainer(
+                                      labelName: 'Prénom',
+                                      labelController: _firstnameController,
+                                      icone: Icons.person,
+                                      isPassword: false,
+                                      passwordVisible: false,
+                                    ),
+                                    buildTextContainer(
+                                      labelName: 'Téléphone',
+                                      labelController: _telController,
+                                      icone: Icons.phone,
+                                      isPassword: false,
+                                      passwordVisible: false,
+                                    ),
+                                    buildTextContainer(
                                       labelName: 'Email',
                                       labelController: _emailController,
                                       icone: Icons.email,
+                                      isPassword: false,
+                                      passwordVisible: false,
+                                    ),
+                                    buildTextContainer(
+                                      labelName: 'Adresse',
+                                      labelController: _adresseController,
+                                      icone: Icons.location_on,
+                                      isPassword: false,
+                                      passwordVisible: false,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Password',
@@ -113,23 +171,113 @@ class _ConnectionState extends State<Connection> {
                                         })
                                       },
                                     ),
+                                    buildTextContainer(
+                                      labelName: 'Confirm Password',
+                                      labelController:
+                                          _confirmpassVisiblewordController,
+                                      icone: Icons.password,
+                                      isPassword: true,
+                                      passwordVisible: confirmPassVisible,
+                                      isStroke: confirmPassVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      onPress: () => {
+                                        setState(() {
+                                          confirmPassVisible =
+                                              !confirmPassVisible;
+                                        })
+                                      },
+                                    ),
+                                    dropDownButtonField(
+                                        items: ages,
+                                        selectedValue: age,
+                                        text: 'age',
+                                        icone: Icons.wc),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    dropDownButtonField(
+                                        items: sexes,
+                                        selectedValue: sexe,
+                                        text: 'sexe',
+                                        icone: Icons.wc),
                                     // Bouton de sauvegarde creation de compte
                                     Container(
                                       margin: EdgeInsets.only(
                                         top: pageHeight * 0.02,
-                                        left: pageWidth * 0.4,
+                                        left: pageWidth * 0.5,
                                         bottom: pageHeight * 0.02,
                                       ),
                                       child: InkWell(
                                         onTap: () => {
-                                          print('Connection reuissie !'),
+                                          if (_formKey.currentState!.validate())
+                                            {
+                                              print(
+                                                  'Prénom: ${_firstnameController.text}'),
+                                              print(
+                                                  'Nom: ${_nameController.text}'),
+                                              print(
+                                                  'Téléphone: ${_telController.text}'),
+                                              print(
+                                                  'Adresse: ${_adresseController.text}'),
+                                              print(
+                                                  'Password: ${_passwordController.text}'),
+                                              print(
+                                                  'E-mail: ${_emailController.text}'),
+                                              print('Age: $age'),
+                                              print('Sexe: $sexe'),
+                                              client = Client(
+                                                lastName: _nameController.text,
+                                                firstName:
+                                                    _firstnameController.text,
+                                                phone: _telController.text,
+                                                adresse:
+                                                    _adresseController.text,
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text,
+                                                confirmPassword:
+                                                    _confirmpassVisiblewordController
+                                                        .text,
+                                                age: 'ENFANT',
+                                                sexe: 'H',
+                                              ),
+                                              user.setClient = client,
+                                              //client.afficher(),
+                                              //print(user.getClient.toString()),
+                                              user.createAccount(client),
+                                              //redirectionValidationInscription( context, client),
+                                              /*clear({
+                                                "name": _nameController,
+                                                "firstname":
+                                                    _firstnameController,
+                                                "tel": _telController,
+                                                "adresse": _adresseController,
+                                                "email": _emailController,
+                                                "password": _passwordController,
+                                                "confirmpassword":
+                                                    _confirmpassVisiblewordController
+                                              }),*/
+                                            }
+                                          else
+                                            {
+                                              print(
+                                                  'Veuillez remplir tous les champs'),
+                                            },
+                                          if (_passwordController.text !=
+                                              _confirmpassVisiblewordController
+                                                  .text)
+                                            {
+                                              print(
+                                                  'Les mots de passe ne correspondent pas'),
+                                            }
                                         },
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
                                             const Text(
-                                              'Se connecter ',
+                                              'Créer ',
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 25,
@@ -159,15 +307,17 @@ class _ConnectionState extends State<Connection> {
                                 ),
                               )),
                         ),
-                        // Connection avec google
+                        // Texte de connexion avec google
                         DelayedAnimation(
-                          delay: 2500,
+                          delay: 2000,
                           child: ElevatedButton(
                             onPressed: () => {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Accueil(),
+                                    builder: (context) => Accueil(
+                                      user: Client(),
+                                    ),
                                   ))
                             },
                             style: ElevatedButton.styleFrom(
@@ -198,9 +348,9 @@ class _ConnectionState extends State<Connection> {
                             ),
                           ),
                         ),
-                        // Redirection pau cas ou le compte n'existe pas
+                        // Compte existante ?
                         DelayedAnimation(
-                          delay: 3000,
+                          delay: 2500,
                           // ignore: sized_box_for_whitespace
                           child: Container(
                             width: double.infinity,
@@ -216,7 +366,7 @@ class _ConnectionState extends State<Connection> {
                                   endIndent: pageWidth * 0.2,
                                 ),
                                 Text(
-                                  'Vous n\'avez pas de compte ?',
+                                  'Vous avez déjà un compte ?',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -227,19 +377,31 @@ class _ConnectionState extends State<Connection> {
                                   margin: EdgeInsets.only(
                                     top: pageHeight * 0.008,
                                   ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 1),
+                                      ),
+                                    ],
+                                  ),
                                   child: InkWell(
                                     onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const Inscription(),
+                                              const Connection(),
                                         )),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Créer un compte ',
+                                          'Se connecter ',
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: pageWidth * 0.055,
@@ -274,18 +436,6 @@ class _ConnectionState extends State<Connection> {
             ),
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Accueil(),
-              ));
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lycs_fid_customers/configs/config.dart';
-import 'package:lycs_fid_customers/delayed_animation.dart';
-import 'package:lycs_fid_customers/welcome.dart';
+import 'package:lycs_fid_customers/animation/delayed_animation.dart';
+import 'package:lycs_fid_customers/views/demarrage/welcome.dart';
 
 class WelcomePageContainer extends StatelessWidget {
   WelcomePageContainer({super.key, required this.background});
