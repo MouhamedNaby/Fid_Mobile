@@ -14,8 +14,8 @@ import 'package:lycs_fid_customers/model/client.dart';
 import 'package:lycs_fid_customers/views/components/list_prospectus.dart';
 import 'package:lycs_fid_customers/views/components/reusable_widget.dart';
 
-class ListeCampagne extends StatefulWidget {
-  const ListeCampagne(
+class ListAllProspectus extends StatefulWidget {
+  const ListAllProspectus(
       {super.key, this.article, this.campagne, this.bon, this.client});
 
   final Client? client;
@@ -24,10 +24,10 @@ class ListeCampagne extends StatefulWidget {
   final ArticleResponse? bon;
 
   @override
-  State<ListeCampagne> createState() => _ListeCampagneState();
+  State<ListAllProspectus> createState() => _ListAllProspectusState();
 }
 
-class _ListeCampagneState extends State<ListeCampagne> {
+class _ListAllProspectusState extends State<ListAllProspectus> {
   String background = 'assets/svg/bg_accueil.svg';
   double pageWidth = 0;
   double pageHeight = 0;
@@ -95,9 +95,9 @@ class _ListeCampagneState extends State<ListeCampagne> {
                         return GridView.count(
                             padding: const EdgeInsets.all(2),
                             shrinkWrap: true,
-                            crossAxisCount: 2,
+                            crossAxisCount: 3,
                             crossAxisSpacing: 5,
-                            childAspectRatio: 0.7,
+                            childAspectRatio: 0.8,
                             mainAxisSpacing: 5,
                             controller:
                                 ScrollController(keepScrollOffset: false),
@@ -108,7 +108,7 @@ class _ListeCampagneState extends State<ListeCampagne> {
                             }).toList());
                       } else {
                         return Container(
-                          child: const Text('Pas de campagne'),
+                          child: const Text('Pas de prospectus trouvé'),
                         );
                       }
                     } else {
@@ -120,58 +120,7 @@ class _ListeCampagneState extends State<ListeCampagne> {
                     }
                   },
                 );
-              }
-/*
-              FutureBuilder<ArticleResponse?>(
-                future: ArticleController().getAllArticles(),
-                builder: (context, AsyncSnapshot<ArticleResponse?> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    //return const CircularProgressIndicator();
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Config.colors.primaryColor,
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text(snapshot.error.toString()));
-                  } else if (snapshot.hasData) {
-                    if (snapshot.data != null) {
-                      print(snapshot.data);
-                      articles =
-                          ArticleController().listArticles(snapshot.data!);
-                      print(articles);
-                      print('nombre d\'articles : ${articles!.length}');
-                      // List view builder Affichage des articles
-
-                      return GridView.count(
-                          padding: const EdgeInsets.all(2),
-                          shrinkWrap: true,
-                          crossAxisCount: 4,
-                          crossAxisSpacing: 5,
-                          childAspectRatio: 0.7,
-                          mainAxisSpacing: 5,
-                          controller: ScrollController(keepScrollOffset: false),
-                          scrollDirection: Axis.vertical,
-                          primary: false,
-                          children: articles!.map((team) {
-                            return articleCard(team, context);
-                          }).toList());
-                    } else {
-                      return Container(
-                        child: const Text('Pas de campagne'),
-                      );
-                    }
-                  } else {
-                    print('Pas de Client trouvé');
-                    return Container(
-                      child:
-                          const Text('Une erreur inattendue s\'est produite!'),
-                    );
-                  }
-                },
-              ),
-            */
-                  ),
+              }),
             ),
           ),
         ],

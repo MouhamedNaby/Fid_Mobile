@@ -9,7 +9,10 @@ import 'package:lycs_fid_customers/configs/config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lycs_fid_customers/model/client.dart';
 import 'package:lycs_fid_customers/views/components/list_prospectus.dart';
+import 'package:lycs_fid_customers/views/page/liste_bon.dart';
 import 'package:lycs_fid_customers/views/page/liste_campagne.dart';
+import 'package:lycs_fid_customers/animation/delayed_animation.dart';
+import 'package:lycs_fid_customers/views/page/liste_prospectus.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, this.user, this.article, this.campagne, this.bon});
@@ -42,11 +45,6 @@ class _HomePageState extends State<HomePage> {
     pageHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Config.colors.primaryColor,
-        flexibleSpace: AppBarFid(client: user),
-      ),
       body: Stack(
         alignment: AlignmentDirectional.topStart,
         children: [
@@ -64,33 +62,54 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   const SizedBox(height: 8.0),
-                  buildContainer(
-                      context,
-                      pageWidth,
-                      pageHeight * 0.22,
-                      const ListeCampagne(),
-                      const ArticleCaroussel(),
-                      'Mes campagnes'),
-                  const SizedBox(height: 8.0),
-                  buildContainer(
+                  DelayedAnimation(
+                    delay: 500,
+                    child: buildContainer(
                       context,
                       pageWidth,
                       pageHeight * 0.23,
                       const ListeCampagne(),
+                      const ArticleCaroussel(),
+                      'Mes campagnes',
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  DelayedAnimation(
+                    delay: 1000,
+                    child: buildContainer(
+                      context,
+                      pageWidth,
+                      pageHeight * 0.18,
+                      const ListAllProspectus(),
                       const ListeProspectus(),
-                      'Mes prospectus'),
+                      'Mes prospectus',
+                    ),
+                  ),
                   const SizedBox(height: 8.0),
-                  buildContainer(context, pageWidth, pageHeight * 0.21,
-                      const ListeCampagne(), const BonCaroussel(), 'Mes bons'),
+                  DelayedAnimation(
+                    delay: 1500,
+                    child: buildContainer(
+                      context,
+                      pageWidth,
+                      pageHeight * 0.215,
+                      const ListeBons(),
+                      const BonCaroussel(),
+                      'Mes bons',
+                    ),
+                  ),
                   const SizedBox(height: 8.0),
-                  buildContainer(
+                  DelayedAnimation(
+                    delay: 2000,
+                    child: buildContainer(
                       context,
                       pageWidth,
                       pageHeight * 0.25,
                       const ListeCampagne(),
-                      const ListeProspectus(),
-                      'Mes activités'),
-                  const SizedBox(height: 8.0),
+                      const Text('Last activities'),
+                      'Mes activités',
+                    ),
+                  ),
+                  SizedBox(height: pageHeight * 0.09),
                 ],
               ),
             ),
@@ -128,9 +147,9 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(5.0),
                 child: Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: pageWidth * 0.04,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -138,12 +157,19 @@ class _HomePageState extends State<HomePage> {
               // Deuxième élément (centré à droite)
               Expanded(
                   child: InkWell(
-                onTap: () async => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => redirect,
-                      )),
+                onTap: () {
+                  showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return redirect;
+                    },
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -152,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                       'Voir plus',
                       style: TextStyle(
                         color: Config.colors.primaryColor,
-                        fontSize: 15,
+                        fontSize: pageWidth * 0.03,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -162,8 +188,9 @@ class _HomePageState extends State<HomePage> {
                         color: Config.colors.primaryColor,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.arrow_forward,
+                        size: pageWidth * 0.05,
                         color: Colors.white,
                         weight: 80,
                       ),

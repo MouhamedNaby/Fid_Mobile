@@ -44,11 +44,6 @@ class _FavorisPageState extends State<FavorisPage> {
     pageHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Config.colors.primaryColor,
-        flexibleSpace: AppBarFid(client: user),
-      ),
       body: Stack(
         children: [
           // Background SVG Image

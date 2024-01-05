@@ -7,12 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lycs_fid_customers/controllers/user.dart';
 import 'package:lycs_fid_customers/model/client.dart';
 import 'package:lycs_fid_customers/views/components/function.dart';
+import 'package:lycs_fid_customers/views/components/widget_validation_connection.dart';
 import 'package:lycs_fid_customers/views/demarrage/welcome.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 import 'package:lycs_fid_customers/animation/delayed_animation.dart';
 import 'package:lycs_fid_customers/views/components/reusable_widget.dart';
 import 'package:lycs_fid_customers/views/connection/inscription.dart';
-import 'package:sqflite/sqflite.dart';
+//import 'package:sqflite/sqflite.dart';
 //import 'package:lycs_fid_customers/model/client.dart';
 
 class Connection extends StatefulWidget {
@@ -32,13 +33,14 @@ class _ConnectionState extends State<Connection> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool passVisible = true;
+  bool _showWidget = false;
   UserController userController = UserController();
 
   @override
   Widget build(BuildContext context) {
     pageWidth = MediaQuery.of(context).size.width;
     pageHeight = MediaQuery.of(context).size.height;
-    Client client = Client();
+    //Client client = Client();
     return Scaffold(
       body: Stack(
         children: [
@@ -63,8 +65,8 @@ class _ConnectionState extends State<Connection> {
                   child: Column(children: [
                     Container(
                       margin: EdgeInsets.only(
-                        top: pageHeight * 0.05,
-                        bottom: pageHeight * 0.008,
+                        top: pageHeight * 0.07,
+                        bottom: pageHeight * 0.12,
                       ),
                       child: Text(
                         'Se connecter',
@@ -72,23 +74,6 @@ class _ConnectionState extends State<Connection> {
                           color: Colors.white,
                           fontSize: pageWidth * 0.08,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: pageHeight * 0.005,
-                        bottom: pageHeight * 0.1,
-                      ),
-                      width: pageWidth,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Veuillez remplir le formulaire ci-dessous !',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: pageWidth * 0.045,
-                          ),
                         ),
                       ),
                     ),
@@ -134,31 +119,13 @@ class _ConnectionState extends State<Connection> {
                                         onTap: () async => {
                                           if (_formKey.currentState!.validate())
                                             {
-                                              /*
-                                              redirectionValidationConnexion(
-                                                  context,
-                                                  _emailController.text,
-                                                  _passwordController.text),
-                                              */
-                                              client =
-                                                  await userController.login(
-                                                      _emailController.text,
-                                                      _passwordController.text),
-                                              if (client.id != null)
-                                                {
-                                                  redirectionValidationConnexion(
-                                                      context,
-                                                      _emailController.text,
-                                                      _passwordController.text),
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Accueil(
-                                                          user: client,
-                                                        ),
-                                                      )),
-                                                }
+                                              print(
+                                                  'show widget = $_showWidget'),
+                                              setState(() {
+                                                _showWidget = true;
+                                              }),
+                                              print(
+                                                  'show widget = $_showWidget'),
                                             }
                                           else
                                             {
@@ -170,11 +137,11 @@ class _ConnectionState extends State<Connection> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
-                                            const Text(
+                                            Text(
                                               'Se connecter ',
                                               style: TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 25,
+                                                fontSize: pageWidth * 0.05,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -209,8 +176,7 @@ class _ConnectionState extends State<Connection> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        Accueil(user: Client()),
+                                    builder: (context) => const Connection(),
                                   ))
                             },
                             style: ElevatedButton.styleFrom(
@@ -320,19 +286,16 @@ class _ConnectionState extends State<Connection> {
                   ])),
             ),
           ),
+
+          _showWidget
+              ? Positioned.fill(
+                  child: ValidationConnection(
+                      username: _emailController.text,
+                      password: _passwordController.text),
+                )
+              : const SizedBox.shrink(),
+          //Positioned.fill(child: Text('')),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Welcome(),
-              ));
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

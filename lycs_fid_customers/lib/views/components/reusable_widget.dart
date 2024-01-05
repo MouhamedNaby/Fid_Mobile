@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:lycs_fid_customers/configs/config.dart';
 import 'package:lycs_fid_customers/model/article.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:lycs_fid_customers/model/bon_de_reduction.dart';
+import 'package:lycs_fid_customers/model/campagne.dart';
+import 'package:lycs_fid_customers/views/components/image_check_url.dart';
 
 Container buildTextContainer({
   required String labelName,
@@ -13,6 +16,7 @@ Container buildTextContainer({
   bool passwordVisible = true,
   VoidCallback? onPress,
   IconData? isStroke = Icons.visibility,
+  double? fontWidth,
 }) {
   return Container(
     margin: const EdgeInsets.only(top: 5, bottom: 5),
@@ -31,6 +35,10 @@ Container buildTextContainer({
       controller: labelController,
       decoration: InputDecoration(
         labelText: labelName,
+        labelStyle: TextStyle(
+          color: Colors.black45,
+          fontSize: fontWidth,
+        ),
         contentPadding: const EdgeInsets.only(
           top: 5,
           bottom: 5,
@@ -39,14 +47,12 @@ Container buildTextContainer({
         prefixIcon: Container(
           margin: const EdgeInsets.all(2),
           padding: const EdgeInsets.all(0),
-          width: 30,
-          height: 30,
           decoration: BoxDecoration(
             color: Config.colors.primaryColor,
             borderRadius: BorderRadius.circular(200),
             border: Border.all(
               color: Config.colors.primaryColor,
-              width: 0.5,
+              width: 0.4,
             ),
           ),
           child: Icon(
@@ -80,9 +86,40 @@ Container buildTextContainer({
 }
 
 Container articleCard(Article article, BuildContext context) {
-  print(article.getNomArticle.toString());
-  print(article.getDescription.toString());
-  print('https://lycsfid.onrender.com${article.getImage.toString()}');
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+      border: Border.all(
+        color: Config.colors.primaryColor,
+        width: 0.5,
+      ),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 5.0,
+          offset: Offset(0, 0),
+        ),
+      ],
+    ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ImageCheck(
+            url: 'https://lycsfid.onrender.com${article.getImage.toString()}',
+            height: MediaQuery.of(context).size.height * 0.105,
+            width: MediaQuery.of(context).size.height * 0.105,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Container bonCard(BonDeReduction article, BuildContext context) {
+  print(article.getImage.toString());
   return Container(
     decoration: const BoxDecoration(
       color: Colors.white,
@@ -106,11 +143,52 @@ Container articleCard(Article article, BuildContext context) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.network(
-              height: MediaQuery.of(context).size.height * 0.12,
-              fit: BoxFit.cover,
-              'https://lycsfid.onrender.com${article.getImage.toString()}'),
-          Text(article.getNomArticle.toString(),
+          ImageCheck(
+            url: article.getImage.toString(),
+            height: MediaQuery.of(context).size.height * 0.109,
+            width: MediaQuery.of(context).size.height * 0.109,
+          ),
+          Text('Reduction : ${article.getMontantDeReduction.toString()}',
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              )),
+        ],
+      ),
+    ),
+  );
+}
+
+Container campagneCard(Campagne article, BuildContext context) {
+  print(article.getImage.toString());
+  return Container(
+    decoration: const BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      border: Border(
+        bottom: BorderSide(
+          color: Colors.black12,
+          width: 1.0,
+        ),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 5.0,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ImageCheck(
+              url: article.getImage.toString(),
+              width: MediaQuery.of(context).size.height * 0.12,
+              height: MediaQuery.of(context).size.height * 0.12),
+          Text(article.getDescription.toString(),
               style: const TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
@@ -126,6 +204,7 @@ DropdownButtonFormField2 dropDownButtonField({
   String? selectedValue,
   String? text,
   IconData? icone,
+  double? fontWidth,
   /*
     required VoidCallback onChange(values, selectedValue),
     required VoidCallback onSave(values, selectedValue)*/
@@ -160,7 +239,9 @@ DropdownButtonFormField2 dropDownButtonField({
     ),
     hint: Text(
       'Selectionner votre $text',
-      style: const TextStyle(fontSize: 17),
+      style: TextStyle(
+        fontSize: fontWidth,
+      ),
     ),
     items: items!
         .map((item) => DropdownMenuItem<String>(

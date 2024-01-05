@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lycs_fid_customers/model/client.dart';
-import 'package:lycs_fid_customers/model/article.dart';
 
 class UserController with ChangeNotifier {
-  Client _client = Client();
-  List<Article> _articles = [];
+  final Client _client = Client();
 
   String token =
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJka0BleGFtcGxlLmNvbSIsImV4cCI6MTcwMDY1NDM3NSwiZW1haWwiOiJka0BleGFtcGxlLmNvbSJ9.eZebzzjMuzv0xbhSbDAgLMeOdv-HIyHfJ5ZGta8dN_E';
@@ -30,7 +28,7 @@ class UserController with ChangeNotifier {
       Uri.parse('https://lycsfid.onrender.com/api/v1/login/'),
       headers: <String, String>{
         'accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'X-CSRFToken': token,
       },
       body: jsonEncode(<String, String>{
@@ -49,7 +47,7 @@ class UserController with ChangeNotifier {
     }
     return ClientResponse.fromJson({
       'statusCode': response.statusCode,
-      'data': response.body,
+      'data': utf8.decode(response.bodyBytes),
       'error': null,
     });
   }
@@ -59,7 +57,7 @@ class UserController with ChangeNotifier {
       Uri.parse('https://lycsfid.onrender.com/api/v1/clients'),
       headers: <String, String>{
         'accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'X-CSRFToken': token,
       },
       body: jsonEncode(client.toJson()),
@@ -71,7 +69,7 @@ class UserController with ChangeNotifier {
 
     return ClientResponse.fromJson({
       'statusCode': response.statusCode,
-      'data': response.body,
+      'data': utf8.decode(response.bodyBytes),
       'error': null,
     });
   }

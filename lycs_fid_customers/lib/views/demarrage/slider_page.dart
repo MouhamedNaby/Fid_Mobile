@@ -71,8 +71,10 @@ class _StartCarousselState extends State<StartCaroussel> {
                               child: Text(
                                 infos.titre,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontSize: 30.0,
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.07,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
@@ -96,7 +98,9 @@ class _StartCarousselState extends State<StartCaroussel> {
                               child: Text(
                                 infos.description,
                                 style: TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.02,
                                     color: Config.colors.primaryColor),
                               ),
                             )),

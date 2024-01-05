@@ -12,7 +12,7 @@ class ArticleController with ChangeNotifier {
   final List<Campagne> _campagnes = [];
   final List<BonDeReduction> _bons = [];
   String token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJka0BleGFtcGxlLmNvbSIsImV4cCI6MTcwMDY1NDM3NSwiZW1haWwiOiJka0BleGFtcGxlLmNvbSJ9.eZebzzjMuzv0xbhSbDAgLMeOdv-HIyHfJ5ZGta8dN_E';
+      'UDQW4h3SRHMbiiru7RaRgZguuwTcthbPrAjJ41uigtIXRuf4jAf9v6KJ5p3xWjDu';
 
   set setArticle(Article article) => () {
         _articles.add(article);
@@ -26,26 +26,23 @@ class ArticleController with ChangeNotifier {
     final response = await http.get(
       Uri.parse('https://lycsfid.onrender.com/api/v1/articles/'),
       headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken':
-            'YVnbeRwzpn2WykJi3F0pYl5OeUhzLashEptQMbgAkHjmetDbHiWjK2TkgVeNC7kQ',
+        'accept': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'X-CSRFToken': token,
       },
     );
 
     if (response.statusCode == 200) {
-      print('Connexion article réussie ${response.statusCode}');
+      // Si le serveur retourne un code de réponse 200 OK, alors parse le JSON.
+      return ArticleResponse.fromJson({
+        'statusCode': response.statusCode,
+        'data': utf8.decode(response.bodyBytes),
+        'error': null,
+      });
     } else {
-      print('Erreur lors de la connexion');
-      print('StatusCode: ${response.statusCode}');
-      print('Response: ${response.body}');
+      // Si le serveur retourne une réponse avec un code d'erreur, alors lève une exception.
+      throw Exception(jsonDecode(response.body)['detail']);
     }
-
-    return ArticleResponse.fromJson({
-      'statusCode': response.statusCode,
-      'data': response.body,
-      'error': null,
-    });
   }
 
   // Recupérer l'ensemble des campagnes
@@ -53,48 +50,46 @@ class ArticleController with ChangeNotifier {
     final response = await http.get(
       Uri.parse('https://lycsfid.onrender.com/api/v1/campagnes/'),
       headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
+        'accept': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
         'X-CSRFToken': token,
       },
     );
 
     if (response.statusCode == 200) {
-      print('Connexion campagne réussie');
+      // Si le serveur retourne un code de réponse 200 OK, alors parse le JSON.
+      return ArticleResponse.fromJson({
+        'statusCode': response.statusCode,
+        'data': utf8.decode(response.bodyBytes),
+        'error': null,
+      });
     } else {
-      print('Erreur lors de la connexion campagne');
-      print('StatusCode campagne: ${response.statusCode}');
-      print('Response campagne: ${response.body}');
+      // Si le serveur retourne une réponse avec un code d'erreur, alors lève une exception.
+      throw Exception(jsonDecode(response.body)['detail']);
     }
-    return ArticleResponse.fromJson({
-      'statusCode': response.statusCode,
-      'data': response.body,
-      'error': null,
-    });
   }
 
   Future<ArticleResponse>? getAllBons() async {
     final response = await http.get(
       Uri.parse('https://lycsfid.onrender.com/api/v1/bon/'),
       headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
+        'accept': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
         'X-CSRFToken': token,
       },
     );
 
     if (response.statusCode == 200) {
-      print('Connexion campagne réussie');
+      // Si le serveur retourne un code de réponse 200 OK, alors parse le JSON.
+      return ArticleResponse.fromJson({
+        'statusCode': response.statusCode,
+        'data': utf8.decode(response.bodyBytes),
+        'error': null,
+      });
     } else {
-      print('Erreur lors de la connexion campagne');
-      print('StatusCode campagne: ${response.statusCode}');
-      print('Response campagne: ${response.body}');
+      // Si le serveur retourne une réponse avec un code d'erreur, alors lève une exception.
+      throw Exception(jsonDecode(response.body)['detail']);
     }
-    return ArticleResponse.fromJson({
-      'statusCode': response.statusCode,
-      'data': response.body,
-      'error': null,
-    });
   }
 
   // Recupérer la liste des articles

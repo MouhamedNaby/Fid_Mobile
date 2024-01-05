@@ -40,11 +40,13 @@ class _WidgetCarousselBonState extends State<WidgetCarousselBon> {
 
   @override
   Widget build(BuildContext context) {
+    double pageWidth = MediaQuery.of(context).size.width;
+    double pageHeight = MediaQuery.of(context).size.height;
     //print('Description de l\'image ${widget.listeBons}');
     return // Generated code for this Carousel Widget...
         SizedBox(
       width: double.infinity,
-      height: 120,
+      height: pageHeight * 0.15,
       child: CarouselSlider(
         items: widget.listeBons!.map((infos) {
           return Builder(

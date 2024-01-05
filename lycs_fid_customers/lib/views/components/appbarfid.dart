@@ -24,7 +24,8 @@ class _AppBarFidState extends State<AppBarFid> {
           height: pageWidth * 0.2,
           child: IconButton(
             onPressed: () {
-              Scaffold.of(context).openDrawer();
+              Scaffold.of(context)
+                  .openDrawer(); // Ouvre le sidebar lorsque le bouton est cliqué
             },
             icon: const Icon(
               Icons.menu,
@@ -39,21 +40,21 @@ class _AppBarFidState extends State<AppBarFid> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Bonjour,',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 15,
+                  fontSize: pageWidth * 0.04,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 '${widget.client.getLastName} ${widget.client.getFirstName}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: pageWidth * 0.055,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Arial'),
               ),
             ],
           )),

@@ -101,13 +101,7 @@ class _WidgetCarousselCampagneState extends State<WidgetCarousselCampagne> {
                 },
               );
             }).toList(),
-          ), /*
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: info!.asMap().entries.map((entry) {
-              return buildIndicator(entry.key);
-            }).toList(),
-          ),*/
+          ),
         ],
       ),
     );

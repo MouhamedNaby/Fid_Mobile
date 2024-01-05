@@ -48,6 +48,7 @@ class _ImageCheckState extends State<ImageCheck> {
       );
     } else {
       // L'image est accessible
+      print(widget.url);
       return Image.network(
         fit: BoxFit.cover,
         widget.url,

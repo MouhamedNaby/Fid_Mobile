@@ -58,7 +58,7 @@ class _ListeProspectusState extends State<ListeProspectus> {
                 shrinkWrap: true,
                 crossAxisCount: 4,
                 crossAxisSpacing: 5,
-                childAspectRatio: 0.7,
+                childAspectRatio: 1,
                 mainAxisSpacing: 5,
                 controller: ScrollController(keepScrollOffset: false),
                 scrollDirection: Axis.vertical,

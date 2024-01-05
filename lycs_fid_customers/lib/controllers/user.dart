@@ -31,7 +31,7 @@ class UserController with ChangeNotifier {
       Uri.parse('https://lycsfid.onrender.com/api/v1/login/'),
       headers: <String, String>{
         'accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'X-CSRFToken': token,
       },
       body: jsonEncode(<String, String>{
@@ -44,7 +44,7 @@ class UserController with ChangeNotifier {
       print('Connexion réussie');
       //print('Response body ${response.body}');
       print('Status Code : ${response.statusCode}');
-      _client = Client.fromJson(jsonDecode(response.body));
+      _client = Client.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 
       print('Connection a la base de données');
       await DatabaseHelper.getDB();
@@ -55,7 +55,7 @@ class UserController with ChangeNotifier {
     } else {
       print('Erreur lors de la connexion');
       print('StatusCode: ${response.statusCode}');
-      print('Response: ${response.body}');
+      print('Response: ${utf8.decode(response.bodyBytes)}');
     }
   }
 
@@ -64,7 +64,7 @@ class UserController with ChangeNotifier {
       Uri.parse('https://lycsfid.onrender.com/api/v1/clients'),
       headers: <String, String>{
         'accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'X-CSRFToken': token,
       },
       body: jsonEncode(client.toJson()),

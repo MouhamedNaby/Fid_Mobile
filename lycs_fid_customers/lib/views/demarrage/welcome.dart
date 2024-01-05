@@ -88,7 +88,13 @@ class _WelcomeState extends State<Welcome> {
                             });
                           },
                         ),
-                        const Text('J\'accepte les '),
+                        Text('J\'accepte les ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.035,
+                            )),
                         InkWell(
                             onTap: () {
                               _afficherConditionConfid(context);
@@ -98,6 +104,8 @@ class _WelcomeState extends State<Welcome> {
                               style: TextStyle(
                                 color: Config.colors.primaryColor,
                                 fontWeight: FontWeight.bold,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.035,
                               ),
                             )),
                       ],
@@ -125,13 +133,13 @@ class _WelcomeState extends State<Welcome> {
                                     ));
                               }
                             : null,
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 30,
+                                fontSize: pageWidth * 0.05,
                                 fontWeight: FontWeight.bold,
                               ),
                               'Suivant  ',
@@ -140,6 +148,7 @@ class _WelcomeState extends State<Welcome> {
                               Icons.arrow_forward,
                               color: Colors.white,
                               weight: 60,
+                              size: pageWidth * 0.06,
                             ),
                           ],
                         ),

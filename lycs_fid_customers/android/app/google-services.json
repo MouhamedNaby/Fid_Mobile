@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115893884119",
+    "project_id": "lycs-fid-customer",
+    "storage_bucket": "lycs-fid-customer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115893884119:android:b63e3eb7a5dfc267b88c92",
+        "android_client_info": {
+          "package_name": "com.example.lycs_fid_customers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4tJYzp3opoQVl-dRF_EZHIsFjqJ0uPJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

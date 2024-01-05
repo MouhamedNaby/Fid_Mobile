@@ -94,4 +94,49 @@ class BonDeReduction {
         'is_liked': isLiked,
         'is_viewed': isViewed,
       };
+
+  set setId(String id) => () {
+        this.id = id;
+      };
+  get getId => id;
+  set setDateDebut(String dateDebut) => () {
+        this.dateDebut = dateDebut;
+      };
+  get getDateDebut => dateDebut;
+  set setDateFin(String dateFin) => () {
+        this.dateFin = dateFin;
+      };
+  get getDateFin => dateFin;
+  set setTypeDeReduction(String typeDeReduction) => () {
+        this.typeDeReduction = typeDeReduction;
+      };
+  get getTypeDeReduction => typeDeReduction;
+  set setCodeDeReduction(String codeDeReduction) => () {
+        this.codeDeReduction = codeDeReduction;
+      };
+  get getCodeDeReduction => codeDeReduction;
+  set setMontantDeReduction(String montantDeReduction) => () {
+        this.montantDeReduction = montantDeReduction;
+      };
+  get getMontantDeReduction => montantDeReduction;
+  set setQuantityBon(String quantityBon) => () {
+        this.quantityBon = quantityBon;
+      };
+  get getQuantityBon => quantityBon;
+  set setAgeCible(String ageCible) => () {
+        this.ageCible = ageCible;
+      };
+  get getAgeCible => ageCible;
+  set setSexeCible(String sexeCible) => () {
+        this.sexeCible = sexeCible;
+      };
+  get getSexeCible => sexeCible;
+  set setLocalisation(String localisation) => () {
+        this.localisation = localisation;
+      };
+  get getLocalisation => localisation;
+  set setImage(String image) => () {
+        this.image = image;
+      };
+  get getImage => image;
 }

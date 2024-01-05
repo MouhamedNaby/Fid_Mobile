@@ -5,6 +5,7 @@ import 'package:lycs_fid_customers/views/accueil.dart';
 //import 'package:lycs_fid_customers/views/components/function.dart';
 import 'package:lycs_fid_customers/configs/config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lycs_fid_customers/views/components/widget_validation_inscription.dart';
 import 'package:lycs_fid_customers/views/connection/connexion.dart';
 import 'package:lycs_fid_customers/controllers/user.dart';
 import 'package:lycs_fid_customers/animation/delayed_animation.dart';
@@ -52,6 +53,20 @@ class _InscriptionState extends State<Inscription> {
   bool passVisible = true;
   bool confirmPassVisible = true;
 
+  void showDialogIns(Client user) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: null,
+          alignment: Alignment.center,
+          //title: const Text('Inscription'),
+          content: ValidationInscription(client: user),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     pageWidth = MediaQuery.of(context).size.width;
@@ -83,32 +98,15 @@ class _InscriptionState extends State<Inscription> {
                   child: Column(children: [
                     Container(
                       margin: EdgeInsets.only(
-                        top: pageHeight * 0.05,
-                        bottom: pageHeight * 0.01,
+                        top: pageHeight * 0.06,
+                        bottom: pageHeight * 0.05,
                       ),
                       child: Text(
                         'Créer un compte',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: pageWidth * 0.08,
+                          fontSize: pageWidth * 0.07,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: pageHeight * 0.005,
-                        bottom: pageHeight * 0.07,
-                      ),
-                      width: pageWidth,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Veuillez remplir le formulaire ci-dessous !',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: pageWidth * 0.045,
-                          ),
                         ),
                       ),
                     ),
@@ -127,6 +125,7 @@ class _InscriptionState extends State<Inscription> {
                                       icone: Icons.person,
                                       isPassword: false,
                                       passwordVisible: false,
+                                      fontWidth: pageWidth * 0.045,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Prénom',
@@ -134,6 +133,7 @@ class _InscriptionState extends State<Inscription> {
                                       icone: Icons.person,
                                       isPassword: false,
                                       passwordVisible: false,
+                                      fontWidth: pageWidth * 0.045,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Téléphone',
@@ -141,6 +141,7 @@ class _InscriptionState extends State<Inscription> {
                                       icone: Icons.phone,
                                       isPassword: false,
                                       passwordVisible: false,
+                                      fontWidth: pageWidth * 0.045,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Email',
@@ -148,6 +149,7 @@ class _InscriptionState extends State<Inscription> {
                                       icone: Icons.email,
                                       isPassword: false,
                                       passwordVisible: false,
+                                      fontWidth: pageWidth * 0.045,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Adresse',
@@ -155,6 +157,7 @@ class _InscriptionState extends State<Inscription> {
                                       icone: Icons.location_on,
                                       isPassword: false,
                                       passwordVisible: false,
+                                      fontWidth: pageWidth * 0.045,
                                     ),
                                     buildTextContainer(
                                       labelName: 'Password',
@@ -192,7 +195,8 @@ class _InscriptionState extends State<Inscription> {
                                         items: ages,
                                         selectedValue: age,
                                         text: 'age',
-                                        icone: Icons.wc),
+                                        icone: Icons.wc,
+                                        fontWidth: pageWidth * 0.045),
                                     const SizedBox(
                                       height: 5,
                                     ),
@@ -200,7 +204,8 @@ class _InscriptionState extends State<Inscription> {
                                         items: sexes,
                                         selectedValue: sexe,
                                         text: 'sexe',
-                                        icone: Icons.wc),
+                                        icone: Icons.wc,
+                                        fontWidth: pageWidth * 0.045),
                                     // Bouton de sauvegarde creation de compte
                                     Container(
                                       margin: EdgeInsets.only(
@@ -240,24 +245,9 @@ class _InscriptionState extends State<Inscription> {
                                                     _confirmpassVisiblewordController
                                                         .text,
                                                 age: 'ENFANT',
-                                                sexe: 'H',
+                                                sexe: 'M',
                                               ),
-                                              user.setClient = client,
-                                              //client.afficher(),
-                                              //print(user.getClient.toString()),
-                                              user.createAccount(client),
-                                              //redirectionValidationInscription( context, client),
-                                              /*clear({
-                                                "name": _nameController,
-                                                "firstname":
-                                                    _firstnameController,
-                                                "tel": _telController,
-                                                "adresse": _adresseController,
-                                                "email": _emailController,
-                                                "password": _passwordController,
-                                                "confirmpassword":
-                                                    _confirmpassVisiblewordController
-                                              }),*/
+                                              showDialogIns(client),
                                             }
                                           else
                                             {
@@ -315,9 +305,7 @@ class _InscriptionState extends State<Inscription> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Accueil(
-                                      user: Client(),
-                                    ),
+                                    builder: (context) => const Connection(),
                                   ))
                             },
                             style: ElevatedButton.styleFrom(
@@ -425,6 +413,9 @@ class _InscriptionState extends State<Inscription> {
                                       ],
                                     ),
                                   ),
+                                ),
+                                SizedBox(
+                                  height: pageHeight * 0.05,
                                 ),
                               ],
                             ),

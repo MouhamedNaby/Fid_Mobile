@@ -2,16 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:lycs_fid_customers/controllers/article.dart';
-import 'package:lycs_fid_customers/views/accueil.dart';
-import 'package:lycs_fid_customers/views/components/appbarfid.dart';
-import 'package:lycs_fid_customers/views/components/bon_caroussel.dart';
-import 'package:lycs_fid_customers/views/components/campagne_caroussel.dart';
 import 'package:lycs_fid_customers/configs/config.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lycs_fid_customers/model/article.dart';
 import 'package:lycs_fid_customers/model/campagne.dart';
 import 'package:lycs_fid_customers/model/client.dart';
-import 'package:lycs_fid_customers/views/components/list_prospectus.dart';
 import 'package:lycs_fid_customers/views/components/reusable_widget.dart';
 
 class ListeCampagne extends StatefulWidget {
@@ -34,7 +28,7 @@ class _ListeCampagneState extends State<ListeCampagne> {
 
   Client user = Client();
 
-  List<Article>? articles;
+  List<Campagne>? campagnes;
 
   @override
   void initState() {
@@ -72,7 +66,7 @@ class _ListeCampagneState extends State<ListeCampagne> {
             child: SingleChildScrollView(
               child: Builder(builder: (BuildContext context) {
                 return FutureBuilder<ArticleResponse?>(
-                  future: ArticleController().getAllArticles(),
+                  future: ArticleController().getAllCampagnes(),
                   builder: (context, AsyncSnapshot<ArticleResponse?> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       //return const CircularProgressIndicator();
@@ -85,11 +79,11 @@ class _ListeCampagneState extends State<ListeCampagne> {
                       return Center(child: Text(snapshot.error.toString()));
                     } else if (snapshot.hasData) {
                       if (snapshot.data != null) {
-                        print(snapshot.data);
-                        articles =
-                            ArticleController().listArticles(snapshot.data!);
-                        print(articles);
-                        print('nombre d\'articles : ${articles!.length}');
+                        print(snapshot.data!.data);
+                        campagnes =
+                            ArticleController().listCampagnes(snapshot.data!);
+                        print(campagnes);
+                        print('nombre d\'articles : ${campagnes!.length}');
                         // List view builder Affichage des articles
 
                         return GridView.count(
@@ -97,14 +91,14 @@ class _ListeCampagneState extends State<ListeCampagne> {
                             shrinkWrap: true,
                             crossAxisCount: 3,
                             crossAxisSpacing: 5,
-                            childAspectRatio: 0.7,
+                            childAspectRatio: 0.8,
                             mainAxisSpacing: 5,
                             controller:
                                 ScrollController(keepScrollOffset: false),
                             scrollDirection: Axis.vertical,
                             primary: false,
-                            children: articles!.map((team) {
-                              return articleCard(team, context);
+                            children: campagnes!.map((team) {
+                              return campagneCard(team, context);
                             }).toList());
                       } else {
                         return Container(
