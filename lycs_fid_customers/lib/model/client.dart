@@ -7,7 +7,10 @@ class Client with ChangeNotifier {
   String? email;
   String? adresse;
   String? password;
+  String? confirmPassword;
   String? phone;
+  String? age;
+  String? sexe;
 
   Client(
       {this.id,
@@ -16,7 +19,10 @@ class Client with ChangeNotifier {
       this.email,
       this.adresse,
       this.password,
-      this.phone});
+      this.confirmPassword,
+      this.phone,
+      this.age,
+      this.sexe});
 
   set setId(String? id) => () {
         this.id = id;
@@ -56,13 +62,16 @@ class Client with ChangeNotifier {
   String get getPhone => phone!;
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
-      id: json['id'],
-      lastName: json['lastName'],
-      firstName: json['firstName'],
-      email: json['email'],
-      adresse: json['adresse'],
-      password: json['password'],
-      phone: json['phone']);
+      id: json['id'].toString(),
+      lastName: json['lastName'].toString(),
+      firstName: json['firstName'].toString(),
+      email: json['email'].toString(),
+      adresse: json['adresse'].toString(),
+      password: json['password'].toString(),
+      confirmPassword: json['confirmPassword'].toString(),
+      phone: json['phone'].toString(),
+      age: json['age'].toString(),
+      sexe: json['sexe'].toString());
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -71,6 +80,22 @@ class Client with ChangeNotifier {
         'email': email,
         'adresse': adresse,
         'password': password,
-        'phone': phone
+        'confirm_password': confirmPassword,
+        'phone': phone,
+        'age': age,
+        'sexe': sexe
       };
+
+  void afficher() {
+    print('id: $id');
+    print('lastName: $lastName');
+    print('firstName: $firstName');
+    print('email: $email');
+    print('adresse: $adresse');
+    print('password: $password');
+    print('confirmPassword: $confirmPassword');
+    print('phone: $phone');
+    print('age: $age');
+    print('sexe: $sexe');
+  }
 }
